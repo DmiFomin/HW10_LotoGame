@@ -4,10 +4,10 @@ import random
 class Card:
 
     def __init__(self, name, is_comp):
-        self.name = name
-        self.is_comp = is_comp
-        self.remaining_numbers = 15
-        self.is_in_game = True
+        self._name = name
+        self._is_comp = is_comp
+        self._remaining_numbers = 15
+        self._is_in_game = True
 
         # Генерим 15 уникальных чисел
         randnum = random.sample(range(1, 91), 15)
@@ -28,7 +28,45 @@ class Card:
                     num = 0
                 card.append(num)
 
-        self.card = card
+        self._card = card
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def is_comp(self):
+        return self._is_comp
+
+    @is_comp.setter
+    def is_comp(self, val):
+        self._is_comp = val
+
+    @property
+    def remaining_numbers(self):
+        return self._remaining_numbers
+
+    @remaining_numbers.setter
+    def remaining_numbers(self, val):
+        self._remaining_numbers = val
+
+    @property
+    def is_in_game(self):
+        return self._is_in_game
+
+    @is_in_game.setter
+    def is_in_game(self, val):
+        self._is_in_game = val
+
+    @property
+    def card(self):
+        return self._card
+
+    @card.setter
+    def card(self, val):
+        if len(val) != 27:
+            raise Exception('Карточка должна содержать 27 ячеек!')
+        self._card = val
 
     def print_card(self):
         print('Карточка', 'компьютера' if self.is_comp else 'игрока', self.name)
@@ -74,9 +112,33 @@ class Card:
 class Bag:
 
     def __init__(self):
-        self.set_numbers = random.sample(range(1, 91), 90)
-        self.remaining_numbers = 90
-        self.dropped_numbers = []
+        self._set_numbers = random.sample(range(1, 91), 90)
+        self._remaining_numbers = 90
+        self._dropped_numbers = []
+
+    @property
+    def set_numbers(self):
+        return self._set_numbers
+
+    @set_numbers.setter
+    def set_numbers(self, val):
+        self._set_numbers = val
+
+    @property
+    def remaining_numbers(self):
+        return self._remaining_numbers
+
+    @remaining_numbers.setter
+    def remaining_numbers(self, val):
+        self._remaining_numbers = val
+
+    @property
+    def dropped_numbers(self):
+        return self._dropped_numbers
+
+    @dropped_numbers.setter
+    def dropped_numbers(self, val):
+        self._dropped_numbers = val
 
     def get_number(self):
         random.shuffle(self.set_numbers)
