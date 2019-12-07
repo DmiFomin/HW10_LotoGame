@@ -1,4 +1,5 @@
 import random
+import functions as fn
 
 
 class Card:
@@ -8,27 +9,7 @@ class Card:
         self._is_comp = is_comp
         self._remaining_numbers = 15
         self._is_in_game = True
-
-        # Генерим 15 уникальных чисел
-        randnum = random.sample(range(1, 91), 15)
-        # Разбиваем по 5 и сортируем
-        lines = [sorted(randnum[0:5]), sorted(randnum[5:10]), sorted(randnum[10:15])]
-        card = []
-
-        for line in lines:
-            i = 0
-            # Генерим расположение чисел в каждой строке
-            place_numeric = sorted(random.sample(range(0, 9), 5))
-            # Если место расположения для числа, то берем его, иначе 0
-            for place in range(0, 9):
-                if place in place_numeric:
-                    num = line[i]
-                    i += 1
-                else:
-                    num = 0
-                card.append(num)
-
-        self._card = card
+        self._card = fn.generate_card()
 
     @property
     def name(self):
@@ -68,13 +49,32 @@ class Card:
             raise Exception('Карточка должна содержать 27 ячеек!')
         self._card = val
 
+    # def print_card(self):
+    #     print('Карточка', 'компьютера' if self.is_comp else 'игрока', self.name)
+    #     print(f'Осталось чисел: {self.remaining_numbers}')
+    #     print('--------------------------')
+    #     lines = [self.card[0:9], self.card[9:18], self.card[18:27]]
+    #     for line in lines:
+    #         line_str = ''
+    #         for num in line:
+    #             if num == -1:
+    #                 line_str = f'{line_str} - '
+    #             elif num == 0:
+    #                 line_str = f'{line_str}   '
+    #             elif num < 10:
+    #                 line_str = f'{line_str} {num} '
+    #             else:
+    #                 line_str = f'{line_str}{num} '
+    #         print(line_str.rstrip())
+    #
+    #     print('--------------------------')
+
     def print_card(self):
-        print('Карточка', 'компьютера' if self.is_comp else 'игрока', self.name)
-        print(f'Осталось чисел: {self.remaining_numbers}')
-        print('--------------------------')
+        line_str = f'Карточка {"компьютера" if self.is_comp else "игрока"} {self.name}\n'
+        line_str = f'{line_str}Осталось чисел: {self.remaining_numbers}\n'
+        line_str = f'{line_str}--------------------------\n'
         lines = [self.card[0:9], self.card[9:18], self.card[18:27]]
         for line in lines:
-            line_str = ''
             for num in line:
                 if num == -1:
                     line_str = f'{line_str} - '
@@ -84,9 +84,10 @@ class Card:
                     line_str = f'{line_str} {num} '
                 else:
                     line_str = f'{line_str}{num} '
-            print(line_str.rstrip())
+            line_str = f'{line_str}\n'
 
-        print('--------------------------')
+        line_str = f'{line_str}--------------------------'
+        return line_str
 
     def remove_number(self, number):
         if number in self.card:
@@ -100,7 +101,7 @@ class Card:
                 result = True
             else:
                 result = False
-        if answer == 'n':
+        elif answer == 'n':
             if num in self.card:
                 result = False
             else:
@@ -120,9 +121,9 @@ class Bag:
     def set_numbers(self):
         return self._set_numbers
 
-    @set_numbers.setter
-    def set_numbers(self, val):
-        self._set_numbers = val
+    # @set_numbers.setter
+    # def set_numbers(self, val):
+    #     self._set_numbers = val
 
     @property
     def remaining_numbers(self):
@@ -136,9 +137,9 @@ class Bag:
     def dropped_numbers(self):
         return self._dropped_numbers
 
-    @dropped_numbers.setter
-    def dropped_numbers(self, val):
-        self._dropped_numbers = val
+    # @dropped_numbers.setter
+    # def dropped_numbers(self, val):
+    #     self._dropped_numbers = val
 
     def get_number(self):
         random.shuffle(self.set_numbers)

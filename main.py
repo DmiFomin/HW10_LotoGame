@@ -30,7 +30,7 @@ for i in range(0, count_players):
 # cards.append(Card('Comp 1', True))
 print('Карточки игроков: ')
 for card in cards:
-    card.print_card()
+    print(card.print_card())
 
 bag = Bag()
 for i in range(0, len(bag.set_numbers)):
@@ -42,7 +42,7 @@ for i in range(0, len(bag.set_numbers)):
         if not card.is_in_game:
             continue
 
-        card.print_card()
+        print(card.print_card())
         if card.is_comp:
             card.remove_number(current_number)
         else:
