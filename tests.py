@@ -60,12 +60,23 @@ class TestCard(unittest.TestCase):
         self.card_human.remove_number(get_random_number(self.card_human.card))
         self.assertEqual(len(self.card_human.card), 27)
 
-    def test_chech_answer(self):
+    def test_check_answer(self):
         self.assertTrue(self.card_human.check_answer('y', get_random_number(self.card_human.card)))
         self.assertFalse(self.card_human.check_answer('y', 91))
 
         self.assertFalse(self.card_human.check_answer('n', get_random_number(self.card_human.card)))
         self.assertTrue(self.card_human.check_answer('n', 91))
+
+    def test_str(self):
+        self.assertTrue('Human' in str(self.card_human))
+
+    def test_eq(self):
+        card_comp = Card('Comp', False)
+        self.assertTrue(self.card_human == card_comp)
+
+    def test_contains(self):
+        rand_num = get_random_number(self.card_human.card)
+        self.assertTrue(rand_num in self.card_human)
 
 
 class TestBag(unittest.TestCase):
@@ -85,3 +96,10 @@ class TestBag(unittest.TestCase):
     def test_get_number(self):
         num = self.bag.get_number()
         self.assertFalse(num in self.bag.set_numbers)
+
+    def test_str(self):
+        self.assertTrue('90' in str(self.bag))
+
+    def test_eq(self):
+        bag2 = Bag()
+        self.assertTrue(self.bag == bag2)

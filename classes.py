@@ -11,6 +11,15 @@ class Card:
         self._is_in_game = True
         self._card = fn.generate_card()
 
+    def __str__(self):
+        return f'{"Компьютер" if self.is_comp else "Игрок"} {self.name}. Количество незачеркнутых чисел: {self.remaining_numbers}'
+
+    def __eq__(self, other):
+        return self.remaining_numbers == other.remaining_numbers
+
+    def __contains__(self, item):
+        return item in self.card
+
     @property
     def name(self):
         return self._name
@@ -90,19 +99,19 @@ class Card:
         return line_str
 
     def remove_number(self, number):
-        if number in self.card:
+        if number in self:
             self.card = [-1 if num == number else num for num in self.card]
             self.remaining_numbers -= 1
 
     def check_answer(self, answer, num):
         if answer == 'y':
-            if num in self.card:
+            if num in self:
                 self.remove_number(num)
                 result = True
             else:
                 result = False
         elif answer == 'n':
-            if num in self.card:
+            if num in self:
                 result = False
             else:
                 result = True
@@ -116,6 +125,12 @@ class Bag:
         self._set_numbers = random.sample(range(1, 91), 90)
         self._remaining_numbers = 90
         self._dropped_numbers = []
+
+    def __str__(self):
+        return f'Количество оставшихся бочонков в мешке: {self.remaining_numbers}'
+
+    def __eq__(self, other):
+        return len(self.dropped_numbers) == len(other.dropped_numbers)
 
     @property
     def set_numbers(self):
@@ -149,3 +164,4 @@ class Bag:
         self.dropped_numbers.append(number)
 
         return number
+
